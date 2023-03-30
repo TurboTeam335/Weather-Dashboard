@@ -30,43 +30,50 @@ let weather = {
     document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
     document.querySelector(".wind").innerHTML = "Wind Speed: " + speed + "mph";
 
-//This is checking to see if the city name is already in the search history. If it is not, it will add it to the search history and create a button for it.
-    if (!searchHistory.includes(name)){
-      searchHistory.push(name)
-      localStorage.setItem("citySearch",JSON.stringify(searchHistory))
-      let btn = document.createElement('button');
-      btn.setAttribute("class", "btn btn-outline-primary  mt-2")
-      btn.textContent = name
-      btn.onclick = this.onClick
-      document.querySelector(".list-group").append(btn)
-    }
-  },
+ //This is checking to see if the city name is already in the search history. If it is not, it will add it to the search history and create a button for it.
+  if (!searchHistory.includes(name)){
+  searchHistory.push(name)
+  localStorage.setItem("citySearch",JSON.stringify(searchHistory))
+  let btn = document.createElement('button');
+  btn.setAttribute("class", "btn btn-outline-primary  mt-2")
+  btn.textContent = name
+  btn.onclick = this.onClick
+  document.querySelector(".list-group").append(btn)
+
+  // Call the forecastWeather function using 'this'
+  this.forecastWeather(name);
+
+  forecastWeather();
+}
+},
+
+
+  // Fetch and display 5-day forecast
+    forecastWeather: function (city) {
+      fetch(
+        "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + this.apiKey
+      )
+      .then((response) => response.json())
+      .then((data) => {
+  // Filter the forecasts to only include one forecast per day
+        const forecasts = data.list.filter((item, index) => index % 8 === 0);
+    
+        for (let i = 0; i < forecasts.length && i < 5; i++) {
+          const { dt_txt: date, weather: [{icon}], main: {temp, humidity}, wind: {speed} } = forecasts[i];
+    
+  // Get forecast card by index
+          const forecastCard = document.querySelector(`#forecast-${i+1}`);
+          
+  // Display date, weather icon, temperature, humidity, and wind speed
+          forecastCard.querySelector('p').innerText = dayjs(date).format('M/D/YYYY hA');
+          forecastCard.querySelector('.weather-icon').innerHTML = `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="weather icon" />`;
+          forecastCard.querySelector('.temp').innerText = temp + "℉";
+          forecastCard.querySelector('#humidity').innerText = "Humidity: " + humidity + "%";
+          forecastCard.querySelector('#wind').innerText = "Wind Speed: " + speed + "mph";
+        }
+      });
+    },
   
-// Fetch and display 5-day forecast
-  forecastWeather: function (city) {
-    fetch(
-      "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + this.apiKey
-    )
-    .then((response) => response.json())
-    .then((data) => {
-// Filter the forecasts to only include one forecast per day
-      const forecasts = data.list.filter((item, index) => index % 8 === 0);
-  
-      for (let i = 0; i < forecasts.length && i < 5; i++) {
-        const { dt_txt: date, weather: [{icon}], main: {temp, humidity}, wind: {speed} } = forecasts[i];
-  
-// Get forecast card by index
-        const forecastCard = document.querySelector(`#forecast-${i+1}`);
-        
-// Display date, weather icon, temperature, humidity, and wind speed
-        forecastCard.querySelector('p').innerText = dayjs(date).format('M/D/YYYY hA');
-        forecastCard.querySelector('.weather-icon').innerHTML = `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="weather icon" />`;
-        forecastCard.querySelector('.temp').innerText = `${temp}℉`;
-        forecastCard.querySelector('#humidity').innerText = `Humidity: ${humidity}%`;
-        forecastCard.querySelector('#wind').innerText = `Wind Speed: ${speed}mph`;
-      }
-    });
-  },
   
 
 //This is a function that is being called when the button is clicked. It is logging the text content of the button and then calling the fetchWeather function.

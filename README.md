@@ -14,7 +14,8 @@ Save recent searches for easy access and reference
 
 ## Getting Started
 
-Go to " "
+Go to "https://turboteam335.github.io/Weather-Dashboard/"
+
 Enter a city into the search bar and be able to see the current weather and a 5 day forecast
 
 ## Technologies Used

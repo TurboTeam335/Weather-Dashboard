@@ -4,7 +4,7 @@ A simple and user-friendly weather dashboard that provides current weather condi
 
 To view my code quiz visit https://github.com/TurboTeam335/Weather-Dashboard
 
-![portfolio demo]()
+![portfolio demo](./assets/img/Screenshot%202023-03-30%20at%206.13.49%20PM.png)
 
 ## Features
 
@@ -14,6 +14,7 @@ Save recent searches for easy access and reference
 
 ## Getting Started
 
+Go to " "
 Enter a city into the search bar and be able to see the current weather and a 5 day forecast
 
 ## Technologies Used

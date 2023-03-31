@@ -122,6 +122,8 @@ for (let i = 0; i < searchHistory.length; i++) {
   btn.textContent = searchHistory[i]
   btn.onclick = weather.onClick
   document.querySelector(".list-group").append(btn)
+
+  
 }
 
 

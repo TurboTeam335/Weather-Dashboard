@@ -102,7 +102,7 @@ function displayTime () {
   currentDayEl.text(todaysDate);
 }
 displayTime();
-setInterval(displayTime, 60000); // Update every 60 seconds
+setInterval(displayTime, 60000); 
 
 
 
